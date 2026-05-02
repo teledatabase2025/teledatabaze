@@ -2,6 +2,10 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 <title>TKM - Telekomunikační modul</title>
 
 <style>
@@ -87,11 +91,11 @@ TKM - Telekomunikační modul telefonních čísel a hovorů
 <div class="box">
 <div class="box-header">
 <h2>Vyhledávání čísla</h2>
-<p>Zadejte celé telefonní číslo (mezery jsou povoleny).</p>
+<p>Zadejte celé telefonní číslo (mezery ani +420 nevadí).</p>
 </div>
 
 <div class="search-row">
-<input type="text" id="userInput" placeholder="např. 603 194 3788">
+<input type="text" id="userInput" placeholder="např. +420 603 194 3788">
 <button onclick="searchNumber()">Vyhledat</button>
 </div>
 
@@ -124,7 +128,11 @@ const numbers = [
 ];
 
 function normalize(text){
-  return text.toLowerCase().replace(/\s+/g,"");
+  return text
+    .toLowerCase()
+    .replace(/\+420/g,"")
+    .replace(/\s+/g,"")
+    .trim();
 }
 
 function searchNumber(){
@@ -136,7 +144,7 @@ function searchNumber(){
     return;
   }
 
-  // 🔴 MUSÍ být přesná shoda
+  // 🔴 POUZE PŘESNÁ SHODA
   const found = numbers.filter(n => n.normalized === val);
 
   if(found.length === 0){
