@@ -1,42 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <title>TKM - Telekomunikační modul telefonních čísel a hovorů</title>
+<meta charset="UTF-8">
+<title>TKM - Telekomunikační modul</title>
+
+<style>
+body { margin:0; font-family:Arial; background:#f4f4f4; }
+
+.topbar {
+  background:#0d47a1;
+  color:white;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:bold;
+}
+
+.box {
+  background:white;
+  max-width:1100px;
+  margin:30px auto;
+  border-radius:6px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+}
+
+.box-header { padding:20px; border-bottom:1px solid #ddd; }
+
+.search-row {
+  display:flex;
+  gap:10px;
+  padding:20px;
+}
+
+input {
+  flex:1;
+  padding:12px;
+  font-size:16px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+button {
+  background:#0d47a1;
+  color:white;
+  border:none;
+  padding:0 20px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.results { display:none; padding:20px; }
+
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td {
+  padding:12px;
+  border-bottom:1px solid #ddd;
+}
+
+th { text-align:left; }
+
+a { color:#0d47a1; text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+.badge {
+  background:#e3f2fd;
+  padding:4px 8px;
+  border-radius:4px;
+}
+</style>
 </head>
+
 <body>
 
-<h1>TKM - Telekomunikační modul telefonních čísel a hovorů</h1>
-<p>Zadejte telefonní číslo:</p>
+<div class="topbar">
+TKM - Telekomunikační modul telefonních čísel a hovorů
+</div>
 
-<input type="text" id="userInput" placeholder="ve tvaru 000 000 0000">
-<button onclick="go()">Vyhledat</button>
+<div class="box">
+<div class="box-header">
+<h2>Vyhledávání čísla</h2>
+<p>Zadejte telefonní číslo pro zobrazení informací.</p>
+</div>
+
+<div class="search-row">
+<input type="text" id="userInput" placeholder="např. 603 194 3788">
+<button onclick="searchNumber()">Vyhledat</button>
+</div>
+
+<div class="results" id="results"></div>
+</div>
 
 <script>
-function normalize(text) {
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, "") // odstraní mezery
-    .trim();
+const numbers = [
+  {
+    number:"603 194 3788",
+    normalized:"6031943788",
+    operator:"T-Mobile",
+    status:"Aktivní",
+    url:"https://tkm-fbf72a.webnode.cz/"
+  },
+  {
+    number:"603 194 3788n",
+    normalized:"6031943788n",
+    operator:"Interní síť",
+    status:"Speciální",
+    url:"https://tkm-fbf72a.webnode.cz/aktualizace/"
+  },
+  {
+    number:"222 558 4423",
+    normalized:"2225584423",
+    operator:"O2",
+    status:"Aktivní",
+    url:"https://tkm-fbf72a.webnode.cz/2/"
+  }
+];
+
+function normalize(text){
+  return text.toLowerCase().replace(/\s+/g,"");
 }
 
-function go() {
+function searchNumber(){
   const val = normalize(document.getElementById("userInput").value);
+  const resultsBox = document.getElementById("results");
 
-  const pages = {
-    "6031943788": "https://tkm-fbf72a.webnode.cz/",
-    "6031943788n": "https://tkm-fbf72a.webnode.cz/aktualizace/",
-    "2225584423": "https://tkm-fbf72a.webnode.cz/2/"
-  };
+  const found = numbers.filter(n => n.normalized.includes(val));
 
-  if (pages[val]) {
-    window.location.href = pages[val];
-  } else {
-    alert("Číslo nenalezeno");
+  if(found.length === 0){
+    resultsBox.style.display="block";
+    resultsBox.innerHTML="<p>Číslo nenalezeno</p>";
+    return;
   }
+
+  let html = `<p>Nalezené záznamy: <strong>${found.length}</strong></p>`;
+  html += `
+  <table>
+    <thead>
+      <tr>
+        <th>Telefonní číslo</th>
+        <th>Operátor</th>
+        <th>Stav</th>
+      </tr>
+    </thead>
+    <tbody>
+  `;
+
+  found.forEach(n=>{
+    html += `
+      <tr>
+        <td><a href="${n.url}">${n.number}</a></td>
+        <td>${n.operator}</td>
+        <td><span class="badge">${n.status}</span></td>
+      </tr>
+    `;
+  });
+
+  html += `</tbody></table>`;
+
+  resultsBox.style.display="block";
+  resultsBox.innerHTML=html;
 }
 </script>
-
 
 </body>
 </html>
