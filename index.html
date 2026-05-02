@@ -2,42 +2,47 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Můj web</title>
+  <title>TKM - Telekomunikační modul</title>
 </head>
 <body>
 
-<h1>Vyhledávání měst</h1>
+<h1>TKM - Telekomunikační modul</h1>
+<p>Zadejte telefonní číslo:</p>
 
-<input type="text" id="userInput" placeholder="Zadej město">
-<button onclick="go()">OK</button>
+<input type="text" id="userInput" placeholder="např. 603 194 3788">
+<button onclick="go()">Vyhledat</button>
 
 <script>
-function normalizeText(text) {
+function normalize(text) {
   return text
-    .trim()
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/\s+/g, "") // odstraní mezery
+    .trim();
 }
 
 function go() {
-  const val = normalizeText(document.getElementById("userInput").value);
+  const val = normalize(document.getElementById("userInput").value);
 
   const pages = {
-    "praha": "praha.html"
+    "6031943788": "cislo1.html",
+    "6031943788n": "cislo3.html",
+    "2225584423": "cislo2.html"
   };
 
   if (pages[val]) {
     window.location.href = pages[val];
   } else {
-    alert("Neznámé město");
+    alert("Číslo nenalezeno");
   }
 }
 </script>
 
 <hr>
 
-<a href="praha.html">Praha</a>
+<p>Rychlé odkazy:</p>
+<a href="cislo1.html">603 194 3788</a><br>
+<a href="cislo2.html">222 558 4423</a><br>
+<a href="cislo3.html">603 194 3788n</a>
 
 </body>
 </html>
