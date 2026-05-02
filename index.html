@@ -51,6 +51,8 @@ button {
   cursor:pointer;
 }
 
+button:hover { background:#08306b; }
+
 .results { display:none; padding:20px; }
 
 table {
@@ -85,7 +87,7 @@ TKM - Telekomunikační modul telefonních čísel a hovorů
 <div class="box">
 <div class="box-header">
 <h2>Vyhledávání čísla</h2>
-<p>Zadejte telefonní číslo pro zobrazení informací.</p>
+<p>Zadejte celé telefonní číslo (mezery jsou povoleny).</p>
 </div>
 
 <div class="search-row">
@@ -129,11 +131,17 @@ function searchNumber(){
   const val = normalize(document.getElementById("userInput").value);
   const resultsBox = document.getElementById("results");
 
-  const found = numbers.filter(n => n.normalized.includes(val));
+  if (!val) {
+    resultsBox.style.display = "none";
+    return;
+  }
+
+  // 🔴 MUSÍ být přesná shoda
+  const found = numbers.filter(n => n.normalized === val);
 
   if(found.length === 0){
     resultsBox.style.display="block";
-    resultsBox.innerHTML="<p>Číslo nenalezeno</p>";
+    resultsBox.innerHTML="<p>Číslo nenalezeno (zadejte celé číslo)</p>";
     return;
   }
 
