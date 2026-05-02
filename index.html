@@ -9,7 +9,7 @@
 <h1>TKM - Telekomunikační modul telefonních čísel a hovorů</h1>
 <p>Zadejte telefonní číslo:</p>
 
-<input type="text" id="userInput" placeholder="např. 603 194 3788">
+<input type="text" id="userInput" placeholder="ve tvaru 000 000 0000">
 <button onclick="go()">Vyhledat</button>
 
 <script>
@@ -24,9 +24,9 @@ function go() {
   const val = normalize(document.getElementById("userInput").value);
 
   const pages = {
-    "6031943788": "cislo1.html",
-    "6031943788n": "cislo3.html",
-    "2225584423": "cislo2.html"
+    "6031943788": "https://tkm-fbf72a.webnode.cz/",
+    "6031943788n": "https://tkm-fbf72a.webnode.cz/aktualizace/",
+    "2225584423": "https://tkm-fbf72a.webnode.cz/2/"
   };
 
   if (pages[val]) {
