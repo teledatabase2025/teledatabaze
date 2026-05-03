@@ -79,6 +79,24 @@ a:hover { text-decoration:underline; }
   padding:4px 8px;
   border-radius:4px;
 }
+
+/* 🔹 NOVÝ ODKAZ V ROHU */
+.corner-link {
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  font-size: 12px;
+  color: #777;
+}
+
+.corner-link a {
+  color: #0d47a1;
+  text-decoration: none;
+}
+
+.corner-link a:hover {
+  text-decoration: underline;
+}
 </style>
 </head>
 
@@ -100,6 +118,11 @@ TKM - Telekomunikační modul telefonních čísel a hovorů
 </div>
 
 <div class="results" id="results"></div>
+</div>
+
+<!-- 🔹 ODKAZ -->
+<div class="corner-link">
+  <a href="lokalizace.html">Interní databáze lokalizace zařízení</a>
 </div>
 
 <script>
@@ -144,7 +167,6 @@ function searchNumber(){
     return;
   }
 
-  // 🔴 POUZE PŘESNÁ SHODA
   const found = numbers.filter(n => n.normalized === val);
 
   if(found.length === 0){
