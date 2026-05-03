@@ -12,7 +12,7 @@
 body { margin:0; font-family:Arial; background:#f4f4f4; }
 
 .topbar {
-  background:#b71c1c; /* 🔴 červená */
+  background:#b71c1c;
   color:white;
   height:80px;
   display:flex;
@@ -76,6 +76,16 @@ th { text-align:left; }
   padding:4px 8px;
   border-radius:4px;
 }
+
+a {
+  color:#b71c1c;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+a:hover {
+  text-decoration:underline;
+}
 </style>
 </head>
 
@@ -117,7 +127,8 @@ const numbers = [
     number:"723 854 5516",
     normalized:"7238545516",
     location:"Praha",
-    status:"Omezená data"
+    status:"Omezená data",
+    url:"7238545516.html"
   }
 ];
 
@@ -153,7 +164,7 @@ function searchNumber(){
       <tr>
         <th>Telefonní číslo</th>
         <th>Lokalita</th>
-        <th>PřÍstup</th>
+        <th>Přístup</th>
       </tr>
     </thead>
     <tbody>
@@ -162,7 +173,7 @@ function searchNumber(){
   found.forEach(n=>{
     html += `
       <tr>
-        <td>${n.number}</td>
+        <td><a href="${n.url}">${n.number}</a></td>
         <td>${n.location}</td>
         <td><span class="badge">${n.status}</span></td>
       </tr>
