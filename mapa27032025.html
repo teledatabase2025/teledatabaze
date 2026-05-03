@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Mapa pohybu 27. 3. 2026</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+<style>
+body { margin:0; font-family:Arial, sans-serif; background:#f4f4f4; }
+
+.topbar {
+  background:#b71c1c;
+  color:white;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:bold;
+}
+
+.container {
+  max-width:1100px;
+  margin:30px auto;
+  background:white;
+  border-radius:8px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  padding:35px;
+}
+
+h1 { margin-top:0; font-size:34px; }
+
+.phone { color:#b71c1c; font-weight:bold; }
+
+.info-box {
+  margin:25px 0;
+  border-left:5px solid #b71c1c;
+  background:#fff5f5;
+  padding:18px 25px;
+  border-radius:6px;
+  font-size:20px;
+}
+
+#map {
+  height:520px;
+  width:100%;
+  border-radius:8px;
+  border:1px solid #ddd;
+  margin-top:20px;
+}
+
+.back { margin-top:30px; }
+
+a {
+  color:#b71c1c;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+a:hover { text-decoration:underline; }
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Interní databáze lokalizace zařízení</div>
+
+<div class="container">
+
+<h1>Telefonní číslo: <span class="phone">723 854 5516</span></h1>
+
+<div class="info-box">
+  <strong>Datum:</strong> 27. 3. 2026<br>
+  <strong>Typ dat:</strong> Mapa pohybu BTS
+</div>
+
+<div id="map"></div>
+
+<div class="back">
+  <a href="27032025.html">← Zpět na data</a>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+const records = [
+["0:00","50.0802N, 14.4488E"],
+["6:20","50.0774N, 14.4545E"],
+["6:40","50.0734N, 14.4697E"],
+["7:00","50.0702N, 14.4734E"],
+["16:00","50.0714N, 14.4713E"],
+["16:20","50.0774N, 14.4668E"],
+["16:40","50.0797N, 14.4492E"],
+["18:20","50.0793N, 14.4525E"],
+["22:40","50.0802N, 14.4488E"]
+];
+
+function parseCoord(coord) {
+  const match = coord.match(/([\d.]+)N,\s*([\d.]+)E/);
+  return [parseFloat(match[1]), parseFloat(match[2])];
+}
+
+function mapyUrl(coord) {
+  const [lat, lon] = parseCoord(coord);
+  return `https://mapy.com/cs/zakladni?q=${lat}N%2C%20${lon}E&source=coor&id=${lon}%2C${lat}&ds=2&x=${lon}&y=${lat}&z=19`;
+}
+
+const map = L.map("map").setView([50.075, 14.46], 13);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 19
+}).addTo(map);
+
+const route = records.map(r => parseCoord(r[1]));
+
+L.polyline(route, {
+  color:"#b71c1c",
+  weight:4
+}).addTo(map);
+
+records.forEach((r, i) => {
+  const latlng = parseCoord(r[1]);
+
+  const marker = L.circleMarker(latlng, {
+    radius: i === records.length - 1 ? 8 : 6,
+    color:"#b71c1c",
+    fillColor: i === records.length - 1 ? "#1b8f3a" : "#b71c1c",
+    fillOpacity:0.85
+  }).addTo(map);
+
+  marker.bindPopup(`
+    <strong>Čas:</strong> ${r[0]}<br>
+    <strong>BTS:</strong> ${r[1]}<br>
+    <a href="${mapyUrl(r[1])}" target="_blank" rel="noopener">Mapy.cz</a>
+  `);
+});
+
+map.fitBounds(route);
+</script>
+
+</body>
+</html>
