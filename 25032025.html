@@ -43,10 +43,27 @@ h1 { margin-top:0; font-size:34px; }
   font-size:20px;
 }
 
+/* 🔹 TLAČÍTKO MAPY */
+.map-button {
+  display:inline-block;
+  margin-top:10px;
+  background:#1b8f3a;
+  color:white;
+  padding:10px 16px;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+.map-button:hover {
+  background:#146c2e;
+}
+
 table {
   width:100%;
   border-collapse:collapse;
-  margin-top:20px;
+  margin-top:25px;
 }
 
 th, td {
@@ -55,9 +72,7 @@ th, td {
   text-align:left;
 }
 
-th {
-  background:#f7f7f7;
-}
+th { background:#f7f7f7; }
 
 a {
   color:#b71c1c;
@@ -65,13 +80,9 @@ a {
   text-decoration:none;
 }
 
-a:hover {
-  text-decoration:underline;
-}
+a:hover { text-decoration:underline; }
 
-.back {
-  margin-top:35px;
-}
+.back { margin-top:35px; }
 </style>
 </head>
 
@@ -90,6 +101,9 @@ Interní databáze lokalizace zařízení
   <strong>Typ dat:</strong> Poloha BTS<br>
   <strong>Aktualizace:</strong> každých 20 minut
 </div>
+
+<!-- 🔹 TLAČÍTKO MAPY -->
+<a href="mapa25032025.html" class="map-button">🗺️ Mapa pohybu</a>
 
 <table>
 <thead>
