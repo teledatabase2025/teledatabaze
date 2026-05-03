@@ -64,7 +64,9 @@ a:hover { text-decoration:underline; }
 
 <body>
 
-<div class="topbar">Interní databáze lokalizace zařízení</div>
+<div class="topbar">
+Interní databáze lokalizace zařízení
+</div>
 
 <div class="container">
 
@@ -134,7 +136,7 @@ records.forEach((r, i) => {
   marker.bindPopup(`
     <strong>Čas:</strong> ${r[0]}<br>
     <strong>BTS:</strong> ${r[1]}<br>
-    <a href="${mapyUrl(r[1])}" target="_blank" rel="noopener">Mapy.cz</a>
+    <a href="${mapyUrl(r[1])}" target="_blank" rel="noopener">Otevřít v Mapy.cz</a>
   `);
 });
 
