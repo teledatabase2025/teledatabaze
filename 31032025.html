@@ -5,7 +5,7 @@
 <title>Lokalizační záznam 31. 3. 2026</title>
 
 <style>
-body { margin:0; font-family:Arial, sans-serif; background:#f4f4f4; }
+body { margin:0; font-family:Arial; background:#f4f4f4; }
 
 .topbar {
   background:#b71c1c;
@@ -27,12 +27,7 @@ body { margin:0; font-family:Arial, sans-serif; background:#f4f4f4; }
   padding:35px;
 }
 
-h1 { margin-top:0; font-size:34px; }
-
-.phone {
-  color:#b71c1c;
-  font-weight:bold;
-}
+.phone { color:#b71c1c; font-weight:bold; }
 
 .info-box {
   margin:25px 0;
@@ -43,69 +38,59 @@ h1 { margin-top:0; font-size:34px; }
   font-size:20px;
 }
 
+.map-button {
+  display:inline-block;
+  margin-top:10px;
+  background:#1b8f3a;
+  color:white;
+  padding:10px 16px;
+  border-radius:8px;
+  font-weight:bold;
+  text-decoration:none;
+}
+
 table {
   width:100%;
   border-collapse:collapse;
-  margin-top:20px;
+  margin-top:25px;
 }
 
 th, td {
   padding:12px;
   border-bottom:1px solid #ddd;
-  text-align:left;
 }
-
-th { background:#f7f7f7; }
-
-a {
-  color:#b71c1c;
-  font-weight:bold;
-  text-decoration:none;
-}
-
-a:hover { text-decoration:underline; }
 
 .pending-row {
   text-align:center;
   font-style:italic;
   color:#777;
-  padding:22px;
-  background:#fafafa;
+  padding:20px;
 }
-
-.back { margin-top:35px; }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-Interní databáze lokalizace zařízení
-</div>
+<div class="topbar">Interní databáze lokalizace zařízení</div>
 
 <div class="container">
 
 <h1>Telefonní číslo: <span class="phone">723 854 5516</span></h1>
 
 <div class="info-box">
-  <strong>Datum:</strong> 31. 3. 2026<br>
-  <strong>Typ dat:</strong> Poloha BTS<br>
-  <strong>Aktualizace:</strong> každých 20 minut
+<strong>Datum:</strong> 31. 3. 2026<br>
+<strong>Typ dat:</strong> Poloha BTS<br>
+<strong>Aktualizace:</strong> každých 20 minut
 </div>
+
+<a href="mapa31032025.html" class="map-button">🗺️ Mapa pohybu</a>
 
 <table>
 <thead>
-<tr>
-  <th>Datum / čas</th>
-  <th>Poloha BTS</th>
-</tr>
+<tr><th>Čas</th><th>Poloha BTS</th></tr>
 </thead>
 <tbody id="dataBody"></tbody>
 </table>
-
-<div class="back">
-  <a href="7238545516.html">Zpět na přehled čísla</a>
-</div>
 
 </div>
 
@@ -168,38 +153,25 @@ const records = [
 ["18:00","50.0654N, 14.4554E"]
 ];
 
-function mapyUrl(coord) {
-  const match = coord.match(/([\d.]+)N,\s*([\d.]+)E/);
-  if (!match) return "#";
-
-  const lat = match[1];
-  const lon = match[2];
-
-  return `https://mapy.com/cs/zakladni?q=${lat}N%2C%20${lon}E&source=coor&id=${lon}%2C${lat}&ds=2&x=${lon}&y=${lat}&z=19`;
+function mapyUrl(c){
+ let m=c.match(/([\d.]+)N,\s*([\d.]+)E/);
+ return `https://mapy.com/cs/zakladni?q=${m[1]}N%2C%20${m[2]}E&source=coor&id=${m[2]}%2C${m[1]}&ds=2&x=${m[2]}&y=${m[1]}&z=19`;
 }
 
-const body = document.getElementById("dataBody");
+const body=document.getElementById("dataBody");
 
-records.forEach(row => {
-  const time = row[0];
-  const coord = row[1];
-  const url = mapyUrl(coord);
-
-  body.innerHTML += `
-    <tr>
-      <td>${time}</td>
-      <td><a href="${url}" target="_blank" rel="noopener">${coord}</a></td>
-    </tr>
-  `;
+records.forEach(r=>{
+ body.innerHTML+=`
+ <tr>
+   <td>${r[0]}</td>
+   <td><a href="${mapyUrl(r[1])}" target="_blank">${r[1]}</a></td>
+ </tr>`;
 });
 
-body.innerHTML += `
-  <tr>
-    <td colspan="2" class="pending-row">
-      Další data zatím nejsou k dispozici
-    </td>
-  </tr>
-`;
+body.innerHTML+=`
+<tr><td colspan="2" class="pending-row">
+Další data zatím nejsou k dispozici
+</td></tr>`;
 </script>
 
 </body>
