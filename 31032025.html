@@ -25,6 +25,25 @@ body { margin:0; font-family:Arial, sans-serif; background:#f4f4f4; }
   border-radius:8px;
   box-shadow:0 2px 10px rgba(0,0,0,0.15);
   padding:35px;
+  position:relative;
+}
+
+.live-button {
+  position:absolute;
+  top:25px;
+  right:30px;
+  background:#1b8f3a;
+  color:white;
+  padding:10px 18px;
+  border-radius:8px;
+  font-weight:bold;
+  font-size:15px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  text-decoration:none;
+}
+
+.live-button:hover {
+  background:#146c2e;
 }
 
 h1 { margin-top:0; font-size:34px; }
@@ -95,6 +114,13 @@ Interní databáze lokalizace zařízení
 </div>
 
 <div class="container">
+
+<a href="https://mapy.com/cs/zakladni?q=50.0654N%2C%2014.4554E&source=coor&id=14.4554%2C50.0654&ds=2&x=14.4554&y=50.0654&z=19"
+   target="_blank"
+   rel="noopener"
+   class="live-button">
+  Aktuální poloha
+</a>
 
 <h1>Telefonní číslo: <span class="phone">723 854 5516</span></h1>
 
