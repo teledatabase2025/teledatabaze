@@ -116,10 +116,11 @@ TKM - Telekomunikační modul telefonních čísel a hovorů
 <p>Zadejte celé telefonní číslo (mezery ani +420 nevadí).</p>
 </div>
 
-<div class="search-row">
-<input type="text" id="userInput" placeholder="např. +420 XXX XXX XXXX">
-<button onclick="searchNumber()">Vyhledat</button>
-</div>
+<!-- 🔥 FORM místo DIV -->
+<form class="search-row" onsubmit="searchNumber(); return false;">
+  <input type="text" id="userInput" placeholder="např. +420 XXX XXX XXXX">
+  <button type="submit">Vyhledat</button>
+</form>
 
 <div class="results" id="results"></div>
 </div>
