@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Přihlášení do interní databáze</title>
+
 <style>
 body {
   margin:0;
@@ -44,6 +45,10 @@ button {
   cursor:pointer;
 }
 
+button:hover {
+  background:#7f0000;
+}
+
 .error {
   color:#b71c1c;
   text-align:center;
@@ -51,16 +56,20 @@ button {
 }
 </style>
 </head>
+
 <body>
 
 <div class="login-box">
   <h1>Interní databáze</h1>
   <p>Přístup pouze pro oprávněné uživatele.</p>
 
-  <input type="text" id="login" placeholder="Uživatelské jméno">
-  <input type="password" id="password" placeholder="Heslo">
+  <!-- 🔥 FORM místo klasického layoutu -->
+  <form onsubmit="loginUser(); return false;">
+    <input type="text" id="login" placeholder="Uživatelské jméno">
+    <input type="password" id="password" placeholder="Heslo">
 
-  <button onclick="loginUser()">Přihlásit se</button>
+    <button type="submit">Přihlásit se</button>
+  </form>
 
   <div class="error" id="error"></div>
 </div>
