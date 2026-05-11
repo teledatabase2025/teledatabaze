@@ -2,81 +2,335 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>Detail čísla</title>
+<title>Detail čísla | TKM</title>
 
 <style>
-body { margin: 0; font-family: Arial, sans-serif; background: #fff; color: #111; }
-.topbar { background: #0d47a1; color: white; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; }
-.container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-h1 { font-size: 32px; }
-.section { margin-top: 30px; }
-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-th, td { text-align: left; padding: 10px 10px; }
-th { font-weight: bold; }
-a { color: #0d47a1; text-decoration: underline; }
-.back { margin-top: 50px; display: inline-block; font-size: 18px; }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #eef2f7;
+  color: #172033;
+}
+
+.topbar {
+  background: linear-gradient(135deg, #0d47a1, #08306b);
+  color: white;
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 18px 24px;
+  font-size: 25px;
+  font-weight: bold;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.container {
+  max-width: 1180px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  overflow: hidden;
+  margin-bottom: 26px;
+}
+
+.card-header {
+  padding: 22px 26px;
+  border-bottom: 1px solid #e0e6ef;
+}
+
+.card-header h1,
+.card-header h2 {
+  margin: 0;
+}
+
+.card-header p {
+  margin: 8px 0 0;
+  color: #667085;
+}
+
+.number-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.number {
+  font-size: 32px;
+  font-weight: bold;
+  color: #0d47a1;
+  text-decoration: none;
+}
+
+.number:hover {
+  text-decoration: underline;
+}
+
+.status {
+  background: #e3f2fd;
+  color: #0d47a1;
+  border: 1px solid #bbdefb;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 24px 26px;
+}
+
+.stat {
+  background: #f7f9fc;
+  border: 1px solid #e0e6ef;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.stat small {
+  display: block;
+  color: #667085;
+  margin-bottom: 8px;
+}
+
+.stat strong {
+  font-size: 22px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f7f9fc;
+  color: #475467;
+  text-align: left;
+  font-size: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e0e6ef;
+}
+
+td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #edf0f5;
+  font-size: 15px;
+}
+
+tr:hover td {
+  background: #f9fbff;
+}
+
+.phone-link {
+  color: #0d47a1;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.phone-link:hover {
+  text-decoration: underline;
+}
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.outgoing {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.action {
+  display: inline-block;
+  background: #0d47a1;
+  color: white;
+  padding: 8px 13px;
+  border-radius: 7px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.action:hover {
+  background: #08306b;
+}
+
+.action.disabled {
+  background: #eef2f7;
+  color: #667085;
+  cursor: default;
+}
+
+.back {
+  display: inline-block;
+  margin-top: 10px;
+  background: white;
+  color: #0d47a1;
+  border: 1px solid #c7d7ef;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.back:hover {
+  background: #f1f6ff;
+}
+
+@media (max-width: 800px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .number {
+    font-size: 26px;
+  }
+
+  .topbar {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <div class="topbar">
-TKM - Telekomunikační modul telefonních čísel a hovorů
+  TKM - Telekomunikační modul telefonních čísel a hovorů
 </div>
 
 <div class="container">
 
-<h1>Telefonní číslo: <a href="2225584423info.html">222 558 4423</a></h1>
+  <div class="card">
+    <div class="card-header">
+      <div class="number-line">
+        <div>
+          <p>Detail telefonního čísla</p>
+          <a class="number" href="2225584423info.html">222 558 4423</a>
+        </div>
+        <span class="status">Aktivní záznam</span>
+      </div>
+    </div>
 
-<div class="section">
-<h2>Záznamy hovorů za posledních 30 dnů</h2>
+    <div class="stats">
+      <div class="stat">
+        <small>Období</small>
+        <strong>30 dnů</strong>
+      </div>
+      <div class="stat">
+        <small>Hovory</small>
+        <strong>14</strong>
+      </div>
+      <div class="stat">
+        <small>SMS</small>
+        <strong>0</strong>
+      </div>
+      <div class="stat">
+        <small>Typ provozu</small>
+        <strong>Odchozí</strong>
+      </div>
+    </div>
+  </div>
 
-<table>
-<tr>
-<th>Datum</th><th>Čas</th><th>Telefonní číslo</th><th>Délka trvání</th><th>Typ hovoru</th><th>Záznam</th>
-</tr>
+  <div class="card">
+    <div class="card-header">
+      <h2>Záznamy hovorů za posledních 30 dnů</h2>
+      <p>Přehled dostupných odchozích hovorů.</p>
+    </div>
 
-<tr><td>5.3.2025</td><td>6:44</td><td>732 654 1187</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
-<tr><td>5.3.2025</td><td>6:46</td><td>604 822 1224</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
-<tr><td>5.3.2025</td><td>6:49</td><td>777 536 7833</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Čas</th>
+            <th>Telefonní číslo</th>
+            <th>Délka trvání</th>
+            <th>Typ hovoru</th>
+            <th>Záznam</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>5.3.2025</td><td>6:44</td><td>732 654 1187</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+          <tr><td>5.3.2025</td><td>6:46</td><td>604 822 1224</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+          <tr><td>5.3.2025</td><td>6:49</td><td>777 536 7833</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
 
-<tr>
-<td>11.3.2025</td><td>8:09</td>
-<td><a href="7326541187info.html">732 654 1187</a></td>
-<td>?</td><td>Odchozí</td>
-<td><a href="https://drive.google.com/file/d/1ZuAnqrBPQ1wLC2rfjkLLkCIKVPrvx2Hx/view" target="_blank">Přehrát</a></td>
-</tr>
+          <tr>
+            <td>11.3.2025</td>
+            <td>8:09</td>
+            <td><a class="phone-link" href="7326541187info.html">732 654 1187</a></td>
+            <td>?</td>
+            <td><span class="badge outgoing">Odchozí</span></td>
+            <td><a class="action" href="https://drive.google.com/file/d/1ZuAnqrBPQ1wLC2rfjkLLkCIKVPrvx2Hx/view" target="_blank">Přehrát</a></td>
+          </tr>
 
-<tr><td>11.3.2025</td><td>8:12</td><td>604 822 1224</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
+          <tr><td>11.3.2025</td><td>8:12</td><td>604 822 1224</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
 
-<tr>
-<td>11.3.2025</td><td>8:16</td>
-<td><a href="7775367833info.html">777 536 7833</a></td>
-<td>?</td><td>Odchozí</td>
-<td><a href="https://drive.google.com/file/d/1hp1D6_Nz6XyGzZlWvehTpdMlifrDKN9e/view" target="_blank">Přehrát</a></td>
-</tr>
+          <tr>
+            <td>11.3.2025</td>
+            <td>8:16</td>
+            <td><a class="phone-link" href="7775367833info.html">777 536 7833</a></td>
+            <td>?</td>
+            <td><span class="badge outgoing">Odchozí</span></td>
+            <td><a class="action" href="https://drive.google.com/file/d/1hp1D6_Nz6XyGzZlWvehTpdMlifrDKN9e/view" target="_blank">Přehrát</a></td>
+          </tr>
 
-<tr><td>18.3.2025</td><td>7:31</td><td>732 654 1187</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
+          <tr><td>18.3.2025</td><td>7:31</td><td>732 654 1187</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
 
-<tr>
-<td>18.3.2025</td><td>7:33</td>
-<td><a href="6048221224info.html">604 822 1224</a></td>
-<td>?</td><td>Odchozí</td>
-<td><a href="https://drive.google.com/file/d/1JhiFvfcciKovMxFnsmm4RV7ri-0w8Oa2/view" target="_blank">Přehrát</a></td>
-</tr>
+          <tr>
+            <td>18.3.2025</td>
+            <td>7:33</td>
+            <td><a class="phone-link" href="6048221224info.html">604 822 1224</a></td>
+            <td>?</td>
+            <td><span class="badge outgoing">Odchozí</span></td>
+            <td><a class="action" href="https://drive.google.com/file/d/1JhiFvfcciKovMxFnsmm4RV7ri-0w8Oa2/view" target="_blank">Přehrát</a></td>
+          </tr>
 
-<tr><td>18.3.2025</td><td>7:36</td><td>777 536 7833</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
-<tr><td>25.3.2025</td><td>6:12</td><td>732 654 1187</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
-<tr><td>25.3.2025</td><td>6:16</td><td>604 822 1224</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
-<tr><td>25.3.2025</td><td>6:18</td><td>777 536 7833</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
-<tr><td>27.3.2025</td><td>11:01</td><td>604 822 1224</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
-<tr><td>27.3.2025</td><td>11:05</td><td>777 536 7833</td><td>?</td><td>Odchozí</td><td>Přehrát</td></tr>
+          <tr><td>18.3.2025</td><td>7:36</td><td>777 536 7833</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+          <tr><td>25.3.2025</td><td>6:12</td><td>732 654 1187</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+          <tr><td>25.3.2025</td><td>6:16</td><td>604 822 1224</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+          <tr><td>25.3.2025</td><td>6:18</td><td>777 536 7833</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+          <tr><td>27.3.2025</td><td>11:01</td><td>604 822 1224</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+          <tr><td>27.3.2025</td><td>11:05</td><td>777 536 7833</td><td>?</td><td><span class="badge outgoing">Odchozí</span></td><td><span class="action disabled">Přehrát</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-</table>
+  <a class="back" href="index.html">
+    ← Zpět na vyhledávání telefonních čísel
+  </a>
+
 </div>
 
-<a class="back" href="index.html">Zpět na vyhledávání telefonních čísel</a>
-
-</div>
 </body>
 </html>
