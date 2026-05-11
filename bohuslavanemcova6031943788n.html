@@ -2,52 +2,143 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>Bohuslava Němcová</title>
+<title>Bohuslava Němcová | TKM</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: #111;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #eef2f7;
+  color: #172033;
 }
 
 .topbar {
-  background: #0d47a1;
+  background: linear-gradient(135deg, #0d47a1, #08306b);
   color: white;
-  height: 80px;
+  min-height: 86px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
+  text-align: center;
+  padding: 18px 24px;
+  font-size: 25px;
   font-weight: bold;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
 }
 
 .container {
   max-width: 1000px;
-  margin: 40px auto;
+  margin: 32px auto;
   padding: 0 20px;
 }
 
-h1 {
-  font-size: 32px;
-  margin-bottom: 40px;
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  overflow: hidden;
+  margin-bottom: 26px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-p {
-  font-size: 18px;
-  margin: 18px 0;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
-a {
+.card-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid #e0e6ef;
+}
+
+.card-header p {
+  margin: 0 0 8px;
+  color: #667085;
+  font-size: 15px;
+}
+
+.card-header h1 {
+  margin: 0;
+  font-size: 30px;
   color: #0d47a1;
-  text-decoration: underline;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  padding: 26px 28px;
+}
+
+.info-box {
+  background: #f7f9fc;
+  border: 1px solid #e0e6ef;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.info-box small {
+  display: block;
+  color: #667085;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.info-box strong {
+  display: block;
+  font-size: 20px;
+  color: #172033;
+  line-height: 1.5;
+}
+
+.info-box.full {
+  grid-column: 1 / -1;
+}
+
+.status {
+  display: inline-block;
+  background: #fff3e0;
+  color: #ef6c00;
+  border: 1px solid #ffe0b2;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .back {
-  margin-top: 50px;
   display: inline-block;
-  font-size: 18px;
+  margin-top: 10px;
+  background: white;
+  color: #0d47a1;
+  border: 1px solid #c7d7ef;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.back:hover {
+  background: #f1f6ff;
+}
+
+@media (max-width: 700px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-header h1 {
+    font-size: 25px;
+  }
+
+  .topbar {
+    font-size: 20px;
+  }
 }
 </style>
 </head>
@@ -55,26 +146,63 @@ a {
 <body>
 
 <div class="topbar">
-TKM - Telekomunikační modul telefonních čísel a hovorů
+  TKM - Telekomunikační modul telefonních čísel a hovorů
 </div>
 
 <div class="container">
 
-<h1>Bohuslava Němcová</h1>
+  <div class="card">
+    <div class="card-header">
+      <p>Detail osoby</p>
+      <h1>Bohuslava Němcová</h1>
+    </div>
 
-<p>Datum narození: 13.3.1948</p>
-<p>Rodné číslo: 425313/0347</p>
-<p>Poslední známá adresa: Lužická 1081/15, Praha 2</p>
-<p>Manžel: Čeněk Němec (*1942–†2014)</p>
+    <div class="info-grid">
 
-<p>Děti: Čeněk Němec (*1969)</p>
-<p>Vendula Staňková, roz. Němcová (*1972)</p>
+      <div class="info-box">
+        <small>Datum narození</small>
+        <strong>13.3.1948</strong>
+      </div>
 
-<p>Datum úmrtí: 27.1.2025</p>
+      <div class="info-box">
+        <small>Rodné číslo</small>
+        <strong>425313/0347</strong>
+      </div>
 
-<a class="back" href="6031943788ninfo.html">
-Zpět na informace o telefonním čísle 603 194 3788
-</a>
+      <div class="info-box full">
+        <small>Poslední známá adresa</small>
+        <strong>Lužická 1081/15, Praha 2</strong>
+      </div>
+
+      <div class="info-box">
+        <small>Manžel</small>
+        <strong>Čeněk Němec (*1942–†2014)</strong>
+      </div>
+
+      <div class="info-box">
+        <small>Status</small>
+        <span class="status">Zesnulá</span>
+      </div>
+
+      <div class="info-box full">
+        <small>Děti</small>
+        <strong>
+          Čeněk Němec (*1969)<br>
+          Vendula Staňková, roz. Němcová (*1972)
+        </strong>
+      </div>
+
+      <div class="info-box">
+        <small>Datum úmrtí</small>
+        <strong>27.1.2025</strong>
+      </div>
+
+    </div>
+  </div>
+
+  <a class="back" href="6031943788ninfo.html">
+    ← Zpět na informace o telefonním čísle 603 194 3788
+  </a>
 
 </div>
 
