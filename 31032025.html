@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <title>Lokalizační záznam 31. 3. 2026</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-
 <style>
-body {
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#f4f4f4;
+body { 
+  margin:0; 
+  font-family:Arial, sans-serif; 
+  background:#f4f4f4; 
 }
 
 .topbar {
@@ -31,16 +29,35 @@ body {
   border-radius:8px;
   box-shadow:0 2px 10px rgba(0,0,0,0.15);
   padding:35px;
+  position:relative;
 }
 
-h1 {
-  margin-top:0;
-  font-size:34px;
-}
-
-.phone {
-  color:#b71c1c;
+.live-button {
+  position:absolute;
+  top:25px;
+  right:30px;
+  background:#1b8f3a;
+  color:white;
+  padding:10px 18px;
+  border-radius:8px;
   font-weight:bold;
+  font-size:15px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  text-decoration:none;
+}
+
+.live-button:hover {
+  background:#146c2e;
+}
+
+h1 { 
+  margin-top:0; 
+  font-size:34px; 
+}
+
+.phone { 
+  color:#b71c1c; 
+  font-weight:bold; 
 }
 
 .info-box {
@@ -50,14 +67,6 @@ h1 {
   padding:18px 25px;
   border-radius:6px;
   font-size:20px;
-}
-
-#liveMap {
-  height:320px;
-  width:100%;
-  border-radius:8px;
-  border:1px solid #ddd;
-  margin-bottom:30px;
 }
 
 .map-button {
@@ -72,8 +81,8 @@ h1 {
   box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }
 
-.map-button:hover {
-  background:#146c2e;
+.map-button:hover { 
+  background:#146c2e; 
 }
 
 table {
@@ -88,8 +97,8 @@ th, td {
   text-align:left;
 }
 
-th {
-  background:#f7f7f7;
+th { 
+  background:#f7f7f7; 
 }
 
 a {
@@ -98,8 +107,8 @@ a {
   text-decoration:none;
 }
 
-a:hover {
-  text-decoration:underline;
+a:hover { 
+  text-decoration:underline; 
 }
 
 .pending-row {
@@ -110,8 +119,8 @@ a:hover {
   background:#fafafa;
 }
 
-.back {
-  margin-top:35px;
+.back { 
+  margin-top:35px; 
 }
 </style>
 </head>
@@ -124,15 +133,21 @@ Interní databáze lokalizace zařízení
 
 <div class="container">
 
-<h1>Telefonní číslo: <span class="phone">723 854 5516</span></h1>
+<a href="aktualni-poloha.html"
+   class="live-button">
+  Aktuální poloha
+</a>
+
+<h1>
+Telefonní číslo:
+<span class="phone">723 854 5516</span>
+</h1>
 
 <div class="info-box">
   <strong>Datum:</strong> 31. 3. 2026<br>
   <strong>Typ dat:</strong> Poloha BTS<br>
   <strong>Aktualizace:</strong> každých 20 minut
 </div>
-
-<div id="liveMap"></div>
 
 <a href="mapa31032025.html" class="map-button">
   🗺️ Mapa pohybu
@@ -150,12 +165,12 @@ Interní databáze lokalizace zařízení
 </table>
 
 <div class="back">
-  <a href="7238545516.html">Zpět na přehled čísla</a>
+  <a href="7238545516.html">
+    Zpět na přehled čísla
+  </a>
 </div>
 
 </div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
 const records = [
@@ -216,13 +231,13 @@ const records = [
 ["18:00","50.0654N, 14.4554E"]
 ];
 
-function parseCoord(coord) {
-  const match = coord.match(/([\d.]+)N,\s*([\d.]+)E/);
-  return [parseFloat(match[1]), parseFloat(match[2])];
-}
-
 function mapyUrl(coord) {
-  const [lat, lon] = parseCoord(coord);
+  const match = coord.match(/([\d.]+)N,\s*([\d.]+)E/);
+
+  if (!match) return "#";
+
+  const lat = match[1];
+  const lon = match[2];
 
   return `https://mapy.com/cs/zakladni?q=${lat}N%2C%20${lon}E&source=coor&id=${lon}%2C${lat}&ds=2&x=${lon}&y=${lat}&z=19`;
 }
@@ -230,6 +245,7 @@ function mapyUrl(coord) {
 const body = document.getElementById("dataBody");
 
 records.forEach(row => {
+
   const time = row[0];
   const coord = row[1];
   const url = mapyUrl(coord);
@@ -253,36 +269,6 @@ body.innerHTML += `
   </td>
 </tr>
 `;
-
-const currentLat = 50.0654;
-const currentLon = 14.4554;
-
-const liveMap = L.map("liveMap").setView(
-  [currentLat, currentLon],
-  17
-);
-
-L.tileLayer(
-  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {
-    maxZoom:19
-  }
-).addTo(liveMap);
-
-L.circleMarker(
-  [currentLat, currentLon],
-  {
-    radius:9,
-    color:"#b71c1c",
-    fillColor:"#1b8f3a",
-    fillOpacity:0.9
-  }
-).addTo(liveMap)
-.bindPopup(`
-  <strong>Aktuální poloha</strong><br>
-  50.0654N, 14.4554E
-`)
-.openPopup();
 </script>
 
 </body>
