@@ -80,7 +80,7 @@ button:hover {
     <input
       type="text"
       id="login"
-      placeholder="Uživatelské jméno (ID)"
+      placeholder="Uživatelské jméno"
       required
     >
 
@@ -105,7 +105,12 @@ button:hover {
 function loginUser() {
 
   const login = document.getElementById("login").value;
-  const password = document.getElementById("password").value;
+
+  // převede heslo na VELKÁ písmena
+  const password = document
+    .getElementById("password")
+    .value
+    .toUpperCase();
 
   if (
     login === "145416" &&
