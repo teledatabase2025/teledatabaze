@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -62,15 +61,17 @@ a {
 a:hover { text-decoration:underline; }
 
 .arrow-icon {
-  color:#222;
-  font-size:24px;
+  color:#111;
+  font-size:26px;
   font-weight:bold;
+  line-height:26px;
+  text-align:center;
   text-shadow:
     -1px -1px 0 white,
      1px -1px 0 white,
     -1px  1px 0 white,
-     1px  1px 0 white;
-  line-height:24px;
+     1px  1px 0 white,
+     0 0 4px white;
 }
 
 .map-legend {
@@ -123,7 +124,7 @@ a:hover { text-decoration:underline; }
 .legend-arrow {
   font-size:20px;
   font-weight:bold;
-  color:#222;
+  color:#111;
 }
 </style>
 </head>
@@ -283,31 +284,12 @@ function bearing(from, to) {
   return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
 }
 
-function offsetPoint(from, to, offsetMeters) {
-  const midLat = (from[0] + to[0]) / 2;
-  const midLon = (from[1] + to[1]) / 2;
+function formatTimeText(stay) {
+  if (stay.start === stay.end) {
+    return `<strong>Čas:</strong> ${stay.start}`;
+  }
 
-  const latRad = midLat * Math.PI / 180;
-
-  const dx = to[1] - from[1];
-  const dy = to[0] - from[0];
-
-  const length = Math.sqrt(dx * dx + dy * dy);
-  if (length === 0) return [midLat, midLon];
-
-  const normalX = -dy / length;
-  const normalY = dx / length;
-
-  const metersPerDegreeLat = 111320;
-  const metersPerDegreeLon = 111320 * Math.cos(latRad);
-
-  const offsetLat = (normalY * offsetMeters) / metersPerDegreeLat;
-  const offsetLon = (normalX * offsetMeters) / metersPerDegreeLon;
-
-  return [
-    midLat + offsetLat,
-    midLon + offsetLon
-  ];
+  return `<strong>Pobyt:</strong> ${stay.start}–${stay.end}`;
 }
 
 const stays = createStays(records);
@@ -325,22 +307,30 @@ L.polyline(route, {
   weight:4
 }).addTo(map);
 
-/* Šipky směru pohybu mimo trasu */
+/* Šipky směru pohybu přímo podél trasy */
 for (let i = 0; i < route.length - 1; i++) {
   const from = route[i];
   const to = route[i + 1];
 
-  const arrowPosition = offsetPoint(from, to, 45);
-  const angle = bearing(from, to);
+  const mid = [
+    (from[0] + to[0]) / 2,
+    (from[1] + to[1]) / 2
+  ];
+
+  /*
+    Znak ➤ přirozeně míří doprava, tedy na východ.
+    Bearing se počítá od severu, proto je potřeba odečíst 90 stupňů.
+  */
+  const angle = bearing(from, to) - 90;
 
   const arrowIcon = L.divIcon({
     className:"",
     html:`<div class="arrow-icon" style="transform: rotate(${angle}deg);">➤</div>`,
-    iconSize:[24,24],
-    iconAnchor:[12,12]
+    iconSize:[26,26],
+    iconAnchor:[13,13]
   });
 
-  L.marker(arrowPosition, {
+  L.marker(mid, {
     icon:arrowIcon,
     interactive:false
   }).addTo(map);
@@ -382,7 +372,7 @@ stays.forEach((stay, i) => {
 
   marker.bindPopup(`
     <strong>${label}</strong><br>
-    <strong>Pobyt:</strong> ${stay.start}–${stay.end}<br>
+    ${formatTimeText(stay)}<br>
     <strong>BTS:</strong> ${stay.coord}<br>
     <a href="${mapyUrl(stay.coord)}" target="_blank">Mapy.cz</a>
   `);
@@ -427,4 +417,3 @@ map.fitBounds(route);
 
 </body>
 </html>
-```
