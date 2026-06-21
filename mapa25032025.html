@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -61,11 +62,15 @@ a {
 a:hover { text-decoration:underline; }
 
 .arrow-icon {
-  color:#b71c1c;
-  font-size:28px;
+  color:#222;
+  font-size:24px;
   font-weight:bold;
-  text-shadow:0 0 3px white;
-  line-height:28px;
+  text-shadow:
+    -1px -1px 0 white,
+     1px -1px 0 white,
+    -1px  1px 0 white,
+     1px  1px 0 white;
+  line-height:24px;
 }
 
 .map-legend {
@@ -97,6 +102,11 @@ a:hover { text-decoration:underline; }
   border-color:#1b8f3a;
 }
 
+.legend-dot.blue {
+  background:#1565c0;
+  border-color:#1565c0;
+}
+
 .legend-dot.red {
   background:#b71c1c;
   border-color:#b71c1c;
@@ -108,6 +118,12 @@ a:hover { text-decoration:underline; }
   background:#b71c1c;
   display:inline-block;
   border-radius:4px;
+}
+
+.legend-arrow {
+  font-size:20px;
+  font-weight:bold;
+  color:#222;
 }
 </style>
 </head>
@@ -227,6 +243,7 @@ function mapyUrl(coord) {
 
 function createStays(records) {
   const stays = [];
+
   let current = {
     start: records[0][0],
     end: records[0][0],
@@ -266,6 +283,33 @@ function bearing(from, to) {
   return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
 }
 
+function offsetPoint(from, to, offsetMeters) {
+  const midLat = (from[0] + to[0]) / 2;
+  const midLon = (from[1] + to[1]) / 2;
+
+  const latRad = midLat * Math.PI / 180;
+
+  const dx = to[1] - from[1];
+  const dy = to[0] - from[0];
+
+  const length = Math.sqrt(dx * dx + dy * dy);
+  if (length === 0) return [midLat, midLon];
+
+  const normalX = -dy / length;
+  const normalY = dx / length;
+
+  const metersPerDegreeLat = 111320;
+  const metersPerDegreeLon = 111320 * Math.cos(latRad);
+
+  const offsetLat = (normalY * offsetMeters) / metersPerDegreeLat;
+  const offsetLon = (normalX * offsetMeters) / metersPerDegreeLon;
+
+  return [
+    midLat + offsetLat,
+    midLon + offsetLon
+  ];
+}
+
 const stays = createStays(records);
 
 const map = L.map("map").setView([50.073, 14.452], 13);
@@ -281,26 +325,22 @@ L.polyline(route, {
   weight:4
 }).addTo(map);
 
-/* Šipky směru pohybu */
+/* Šipky směru pohybu mimo trasu */
 for (let i = 0; i < route.length - 1; i++) {
   const from = route[i];
   const to = route[i + 1];
 
-  const mid = [
-    (from[0] + to[0]) / 2,
-    (from[1] + to[1]) / 2
-  ];
-
+  const arrowPosition = offsetPoint(from, to, 45);
   const angle = bearing(from, to);
 
   const arrowIcon = L.divIcon({
     className:"",
     html:`<div class="arrow-icon" style="transform: rotate(${angle}deg);">➤</div>`,
-    iconSize:[28,28],
-    iconAnchor:[14,14]
+    iconSize:[24,24],
+    iconAnchor:[12,12]
   });
 
-  L.marker(mid, {
+  L.marker(arrowPosition, {
     icon:arrowIcon,
     interactive:false
   }).addTo(map);
@@ -313,10 +353,10 @@ stays.forEach((stay, i) => {
   const isFirst = i === 0;
   const isLast = i === stays.length - 1;
 
-  let color = "#b71c1c";
-  let fillColor = "#b71c1c";
+  let color = "#1565c0";
+  let fillColor = "#1565c0";
   let radius = 6;
-  let label = "Lokalizace";
+  let label = "Průběžná lokalizace";
 
   if (isFirst) {
     color = "#1b8f3a";
@@ -360,11 +400,19 @@ legend.onAdd = function () {
       <span>první lokalizace dne</span>
     </div>
     <div class="legend-row">
+      <span class="legend-dot blue"></span>
+      <span>průběžná lokalizace</span>
+    </div>
+    <div class="legend-row">
       <span class="legend-dot red"></span>
       <span>poslední lokalizace dne</span>
     </div>
     <div class="legend-row">
       <span class="legend-line"></span>
+      <span>trasa pohybu</span>
+    </div>
+    <div class="legend-row">
+      <span class="legend-arrow">➤</span>
       <span>směr pohybu</span>
     </div>
   `;
@@ -379,3 +427,4 @@ map.fitBounds(route);
 
 </body>
 </html>
+```
