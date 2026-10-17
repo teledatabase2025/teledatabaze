@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -80,26 +81,25 @@ a:hover { text-decoration:underline; }
   border-radius:4px;
 }
 
-/* 🔴 ČERVENÉ TLAČÍTKO V ROHU */
 .corner-link {
-  position: fixed;
-  bottom: 15px;
-  right: 20px;
+  position:fixed;
+  bottom:15px;
+  right:20px;
 }
 
 .corner-link a {
-  background: #b71c1c;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  background:#b71c1c;
+  color:white;
+  padding:12px 18px;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
 }
 
 .corner-link a:hover {
-  background: #7f0000;
+  background:#7f0000;
 }
 </style>
 </head>
@@ -111,21 +111,19 @@ TKM - Telekomunikační modul telefonních čísel a hovorů
 </div>
 
 <div class="box">
-<div class="box-header">
-<h2>Vyhledávání čísla</h2>
-<p>Zadejte celé telefonní číslo (mezery ani +420 nevadí).</p>
+  <div class="box-header">
+    <h2>Vyhledávání čísla</h2>
+    <p>Zadejte celé telefonní číslo (mezery ani +420 nevadí).</p>
+  </div>
+
+  <form class="search-row" onsubmit="searchNumber(); return false;">
+    <input type="text" id="userInput" placeholder="např. +420 XXX XXX XXXX">
+    <button type="submit">Vyhledat</button>
+  </form>
+
+  <div class="results" id="results"></div>
 </div>
 
-<!-- 🔥 FORM místo DIV -->
-<form class="search-row" onsubmit="searchNumber(); return false;">
-  <input type="text" id="userInput" placeholder="např. +420 XXX XXX XXXX">
-  <button type="submit">Vyhledat</button>
-</form>
-
-<div class="results" id="results"></div>
-</div>
-
-<!-- 🔴 ODKAZ -->
 <div class="corner-link">
   <a href="login.html">Interní databáze lokalizace zařízení</a>
 </div>
@@ -140,7 +138,7 @@ const numbers = [
     url:"6031943788.html"
   },
   {
-    number:"603 194 3788a",
+    number:"603 194 3788",
     normalized:"6031943788a",
     operator:"D-Mobile",
     status:"Aktualizace",
